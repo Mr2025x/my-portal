@@ -1,65 +1,64 @@
-import Image from "next/image";
+import PokemonCard from "./components/PokemonCard";
 
 export default function Home() {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
+    // 1. 背景改用极夜黑 (#020203)
+    <main className="relative flex min-h-screen flex-col items-center justify-center bg-[#020203] py-20 overflow-hidden">
+      
+      {/* === 氛围层：更幽暗的星云光斑 === */}
+      <div className="fixed inset-0 z-0 pointer-events-none">
+         {/* 左上角：深幽紫 */}
+         <div className="absolute top-[-20%] left-[-10%] w-[600px] h-[600px] bg-indigo-900/20 blur-[150px] rounded-full mix-blend-screen animate-pulse"></div>
+         {/* 右下角：暗红/虚空色 */}
+         <div className="absolute bottom-[-20%] right-[-10%] w-[600px] h-[600px] bg-fuchsia-900/20 blur-[150px] rounded-full mix-blend-screen"></div>
+         {/* 中间微弱的星尘 */}
+         <div className="absolute top-[20%] left-[50%] w-[300px] h-[300px] bg-blue-900/10 blur-[100px] rounded-full translate-x-[-50%]"></div>
+      </div>
+
+      {/* === 内容层 === */}
+      <div className="relative z-10 mb-20 text-center">
+        {/* 2. 标题：使用神秘字体 + 月光渐变 */}
+        <h1 className="mb-6 text-6xl md:text-7xl font-bold tracking-widest text-transparent bg-clip-text bg-gradient-to-b from-indigo-100 via-purple-200 to-indigo-900 font-[family-name:var(--font-mystery)] drop-shadow-[0_0_15px_rgba(165,180,252,0.3)]">
+          Plankton's Portal
+        </h1>
+        
+        {/* 副标题：极简风格，拉大字间距 */}
+        <div className="flex items-center justify-center gap-4 opacity-60">
+          <span className="h-[1px] w-12 bg-gradient-to-r from-transparent to-indigo-500"></span>
+          <p className="text-indigo-200 font-light tracking-[0.5em] text-xs uppercase">
+            Gateway to the Unknown
           </p>
+          <span className="h-[1px] w-12 bg-gradient-to-l from-transparent to-indigo-500"></span>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
-    </div>
+      </div>
+
+      {/* === 卡牌容器 === */}
+      <div className="relative z-10 flex flex-col md:flex-row gap-10 items-center justify-center perspective-[1200px]">
+        
+        <PokemonCard
+          name="Grimoire"  // 意思是“魔法书”，比 Blog 更神秘
+          img="/card-blog.jpg"
+          href="https://blog.yourdomain.com"
+        />
+
+        <PokemonCard
+          name="Archives"  // 意思是“档案馆”，比 Wiki 更神秘
+          img="/card-wiki.jpg"
+          href="https://wiki.yourdomain.com"
+        />
+
+        <PokemonCard
+          name="Construct" // 意思是“构造体”，比 GitHub 代码库更神秘
+          img="/card-github.jpg"
+          href="https://github.com/yourusername"
+        />
+
+      </div>
+      
+      {/* 页脚 */}
+      <footer className="relative z-10 mt-24 text-[10px] text-indigo-900/60 tracking-[0.3em] font-sans">
+        EST. 2026 • DIGITAL SANCTUM
+      </footer>
+    </main>
   );
 }
