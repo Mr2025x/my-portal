@@ -44,7 +44,7 @@ export default function Home() {
         <PokemonCard
           name="Archives"  // 意思是“档案馆”，比 Wiki 更神秘
           img="/card-wiki.jpg"
-          href="https://wiki.yourdomain.com"
+          href="https://wiki.plankton2005.best"
         />
 
         <PokemonCard
