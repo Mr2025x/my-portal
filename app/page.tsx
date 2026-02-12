@@ -38,7 +38,7 @@ export default function Home() {
         <PokemonCard
           name="Grimoire"  // 意思是“魔法书”，比 Blog 更神秘
           img="/card-blog.jpg"
-          href="https://blog.yourdomain.com"
+          href="https://blog.plankton2005.best"
         />
 
         <PokemonCard
@@ -50,7 +50,7 @@ export default function Home() {
         <PokemonCard
           name="Construct" // 意思是“构造体”，比 GitHub 代码库更神秘
           img="/card-github.jpg"
-          href="https://github.com/yourusername"
+          href="https://github.com/Mr2025x/my-portal/tree/main"
         />
 
       </div>
