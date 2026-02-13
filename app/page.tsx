@@ -1,64 +1,64 @@
 import PokemonCard from "./components/PokemonCard";
+import StarBackground from "./components/StarBackground";
 
 export default function Home() {
   return (
-    // 1. 背景改用极夜黑 (#020203)
-    <main className="relative flex min-h-screen flex-col items-center justify-center bg-[#020203] py-20 overflow-hidden">
+    <main className="relative flex min-h-[100svh] flex-col items-center justify-center bg-[#050505] overflow-hidden selection:bg-stone-500/30 selection:text-stone-200">
       
-      {/* === 氛围层：更幽暗的星云光斑 === */}
-      <div className="fixed inset-0 z-0 pointer-events-none">
-         {/* 左上角：深幽紫 */}
-         <div className="absolute top-[-20%] left-[-10%] w-[600px] h-[600px] bg-indigo-900/20 blur-[150px] rounded-full mix-blend-screen animate-pulse"></div>
-         {/* 右下角：暗红/虚空色 */}
-         <div className="absolute bottom-[-20%] right-[-10%] w-[600px] h-[600px] bg-fuchsia-900/20 blur-[150px] rounded-full mix-blend-screen"></div>
-         {/* 中间微弱的星尘 */}
-         <div className="absolute top-[20%] left-[50%] w-[300px] h-[300px] bg-blue-900/10 blur-[100px] rounded-full translate-x-[-50%]"></div>
+      {/* 1. 全局噪点纹理 (必加，质感来源) */}
+      <div className="fixed inset-0 z-0 pointer-events-none opacity-[0.04] mix-blend-overlay bg-[url('https://grainy-gradients.vercel.app/noise.svg')]"></div>
+      {/* === 修改开始：插入星空组件 === */}
+      {/* 2. 星空背景层 (它内部设置了 z-index: 1) */}
+      <StarBackground />
+      {/* === 修改结束 === */}
+      {/* 2. 电影感暗角 (Vignette) - 聚焦视线 */}
+      <div className="fixed inset-0 z-10 pointer-events-none bg-[radial-gradient(circle_at_center,transparent_0%,#000000_120%)]"></div>
+
+      {/* 3. 装饰：四个角落的“结界”线条 */}
+      <div className="fixed inset-6 md:inset-10 z-20 pointer-events-none border border-white/5 rounded-3xl opacity-60">
+        {/* 四角加重 */}
+        <div className="absolute top-0 left-0 w-8 h-8 border-t border-l border-white/20 rounded-tl-xl"></div>
+        <div className="absolute top-0 right-0 w-8 h-8 border-t border-r border-white/20 rounded-tr-xl"></div>
+        <div className="absolute bottom-0 left-0 w-8 h-8 border-b border-l border-white/20 rounded-bl-xl"></div>
+        <div className="absolute bottom-0 right-0 w-8 h-8 border-b border-r border-white/20 rounded-br-xl"></div>
       </div>
 
       {/* === 内容层 === */}
-      <div className="relative z-10 mb-20 text-center">
-        {/* 2. 标题：使用神秘字体 + 月光渐变 */}
-        <h1 className="mb-6 text-6xl md:text-7xl font-bold tracking-widest text-transparent bg-clip-text bg-gradient-to-b from-indigo-100 via-purple-200 to-indigo-900 font-[family-name:var(--font-mystery)] drop-shadow-[0_0_15px_rgba(165,180,252,0.3)]">
-          Plankton's Portal
-        </h1>
+      <div className="relative z-30 flex flex-col items-center w-full max-w-6xl px-4">
         
-        {/* 副标题：极简风格，拉大字间距 */}
-        <div className="flex items-center justify-center gap-4 opacity-60">
-          <span className="h-[1px] w-12 bg-gradient-to-r from-transparent to-indigo-500"></span>
-          <p className="text-indigo-200 font-light tracking-[0.5em] text-xs uppercase">
-            Gateway to the Unknown
-          </p>
-          <span className="h-[1px] w-12 bg-gradient-to-l from-transparent to-indigo-500"></span>
+        {/* 头部区域 */}
+        <div className="mb-16 md:mb-24 text-center space-y-5">
+          {/* 标题：使用 Cinzel，增加石刻阴影 */}
+          <h1 className="text-5xl md:text-8xl font-bold tracking-[0.1em] text-[#E0E0E0] font-[family-name:var(--font-mystery)] 
+                         drop-shadow-[0_10px_20px_rgba(0,0,0,1)] 
+                         [text-shadow:0_2px_0_rgba(255,255,255,0.05)]">
+            PLANKTON'S PORTAL
+          </h1>
+          
+          {/* 副标题：改用 Cormorant Garamond (衬线体) + 宽间距 */}
+          <div className="flex items-center justify-center gap-4 opacity-60">
+            <span className="hidden md:block h-[1px] w-12 bg-gradient-to-r from-transparent to-stone-600"></span>
+            <p className="text-stone-400 font-[family-name:var(--font-serif)] italic text-lg md:text-xl tracking-[0.2em]">
+              Gateway to the Unknown
+            </p>
+            <span className="hidden md:block h-[1px] w-12 bg-gradient-to-l from-transparent to-stone-600"></span>
+          </div>
         </div>
+
+        {/* 卡牌区域：增加透视感 */}
+        <div className="flex flex-col md:flex-row gap-16 md:gap-12 items-center justify-center perspective-[2000px] w-full">
+          <PokemonCard name="Grimoire" img="/card-blog.jpg" href="https://blog.plankton2005.best" />
+          <PokemonCard name="Archives" img="/card-wiki.jpg" href="https://wiki.plankton2005.best" />
+          <PokemonCard name="Construct" img="/card-github.jpg" href="https://github.com/Mr2025x/my-portal/tree/main" />
+        </div>
+
+        {/* 页脚：极简，融入背景 */}
+        <footer className="mt-24 md:mt-32 text-center opacity-40 hover:opacity-80 transition-opacity duration-500">
+            <p className="text-[10px] text-stone-500 font-[family-name:var(--font-inter)] tracking-[0.4em] uppercase cursor-default">
+                Est. 2026 • Digital Sanctum
+            </p>
+        </footer>
       </div>
-
-      {/* === 卡牌容器 === */}
-      <div className="relative z-10 flex flex-col md:flex-row gap-10 items-center justify-center perspective-[1200px]">
-        
-        <PokemonCard
-          name="Grimoire"  // 意思是“魔法书”，比 Blog 更神秘
-          img="/card-blog.jpg"
-          href="https://blog.plankton2005.best"
-        />
-
-        <PokemonCard
-          name="Archives"  // 意思是“档案馆”，比 Wiki 更神秘
-          img="/card-wiki.jpg"
-          href="https://wiki.plankton2005.best"
-        />
-
-        <PokemonCard
-          name="Construct" // 意思是“构造体”，比 GitHub 代码库更神秘
-          img="/card-github.jpg"
-          href="https://github.com/Mr2025x/my-portal/tree/main"
-        />
-
-      </div>
-      
-      {/* 页脚 */}
-      <footer className="relative z-10 mt-24 text-[10px] text-indigo-900/60 tracking-[0.3em] font-sans">
-        EST. 2026 • DIGITAL SANCTUM
-      </footer>
     </main>
   );
 }

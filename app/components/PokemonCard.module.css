@@ -2,17 +2,14 @@
 
 .card {
   --card-aspect: 0.718;
-  --card-radius: 4.55% / 3.5%; /* 稍微优化了圆角比例 */
-  
   position: relative;
   z-index: 10;
   width: 100%;
   touch-action: none;
   aspect-ratio: var(--card-aspect);
-  /* 【改动1】使用像素圆角，更可控，看起来更润 */
+  /* 圆角 */
   border-radius: 20px; 
-  
-  perspective: 800px; /* 稍微拉远视角，透视更自然 */
+  perspective: 1000px;
   transform: translate3d(0,0,0);
 }
 
@@ -24,24 +21,20 @@
   
   transform: rotateY(var(--rotate-x)) rotateX(var(--rotate-y));
   transform-style: preserve-3d;
-  /* 【改动2】让阴影的过渡更慢、更柔和 */
-  transition: box-shadow 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+  transition: box-shadow 0.4s ease;
   
-  /* 初始状态的柔和阴影 */
+  /* === 物理厚度模拟 === */
+  /* 默认状态：深邃阴影 */
   box-shadow: 
-    0 10px 30px -10px rgba(0, 0, 0, 0.5),
-    0 5px 15px -5px rgba(0, 0, 0, 0.3);
+    0 10px 20px -10px rgba(0, 0, 0, 0.8),
+    0 5px 10px -5px rgba(0, 0, 0, 0.5);
 }
 
-/* 悬停时的立体感增强 */
+/* 悬停时：阴影加深，仿佛卡牌浮起 */
 .card:hover .rotator {
   box-shadow: 
-    /* 底部深阴影，营造悬浮感 */
-    0 25px 50px -12px rgba(0, 0, 0, 0.7),
-    /* 【核心改动3】边缘柔和外发光，营造立体厚度感 */
-    0 0 25px -5px rgba(255, 255, 255, 0.2),
-    /* 极细微的亮边强调 */
-    0 1px 0px rgba(255, 255, 255, 0.1) inset;
+    0 30px 60px -15px rgba(0, 0, 0, 0.9),
+    0 0 0 1px rgba(255, 255, 255, 0.1); /* 微弱的边缘光 */
 }
 
 .front {
@@ -49,77 +42,69 @@
   top: 0; left: 0; width: 100%; height: 100%;
   border-radius: inherit;
   overflow: hidden;
-  background: #1a1a1a; /* 稍微提亮背景色 */
+  background: #0a0a0a; 
   backface-visibility: hidden;
-  /* 【核心改动4】添加半透明边框，模拟玻璃/树脂边缘的反光 */
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  /* 确保背景图和光效都在边框内 */
-  box-sizing: border-box;
+  
+  /* === 玻璃/晶体边缘质感 === */
+  /* 内发光模拟厚度 */
+  box-shadow: 
+    inset 0 0 0 1px rgba(255, 255, 255, 0.1),
+    inset 0 0 20px rgba(0, 0, 0, 0.8);
 }
 
 .front img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  /* 稍微降低原始图片亮度，让光效更突出但不刺眼 */
-  filter: brightness(0.95);
-  transition: filter 0.4s ease;
+  /* 默认稍微压暗图片，制造年代感 */
+  filter: brightness(0.7) sepia(0.2) contrast(1.1) grayscale(0.2);
+  transition: filter 0.5s ease;
 }
+
+/* 悬停时图片恢复，仿佛被唤醒 */
 .card:hover .front img {
-  filter: brightness(1);
+  filter: brightness(1) sepia(0) contrast(1) grayscale(0);
 }
 
-/* === 光效层深度优化 (柔和化) === */
+/* === 光效层：极致柔和 === */
 
-/* 通用属性 */
 .shine, .glare {
   position: absolute;
-  top: -1px; left: -1px; right: -1px; bottom: -1px; /*稍微扩大覆盖边框*/
+  top: 0; left: 0; right: 0; bottom: 0;
   border-radius: inherit;
   pointer-events: none;
   opacity: var(--card-opacity);
-  transition: opacity 0.6s ease; /* 光效消失得更慢更柔 */
+  transition: opacity 0.5s ease;
+  will-change: opacity, background-position;
 }
 
-/* 1. Shine: 全息珠光层 (大改) */
+/* 1. 珠光层：极淡的冷暖光 */
 .shine {
   z-index: 3;
-  /* 【核心改动5】放弃 harsh 的 color-dodge，改用柔和的 overlay */
   mix-blend-mode: overlay; 
   
-  /* 【核心改动6】重新设计渐变。
-     放弃了高对比度的透明-白-透明结构。
-     改为非常淡的彩虹珠光色，并且整体透明度极低。
-  */
   background-image: linear-gradient(
     115deg,
     transparent 20%,
-    rgba(180, 200, 255, 0.15) 35%, /* 淡淡的蓝紫光 */
-    rgba(255, 220, 180, 0.15) 50%, /* 淡淡的金橙光 */
-    rgba(180, 255, 200, 0.15) 65%, /* 淡淡的绿光 */
+    rgba(200, 230, 255, 0.1) 40%, /* 极淡蓝 */
+    rgba(255, 220, 180, 0.1) 60%, /* 极淡金 */
     transparent 80%
   );
-  background-size: 250% 250%;
+  background-size: 300% 300%;
   background-position: var(--background-x) var(--background-y);
-  /* 增加一点模糊，让光斑更散、更柔 */
-  filter: blur(8px);
+  filter: blur(12px); 
 }
 
-/* 2. Glare: 强光点层 (柔化) */
+/* 2. 强光点：模拟材质反光 */
 .glare {
   z-index: 4;
-  /* 【核心改动7】使用柔光模式 */
-  mix-blend-mode: soft-light; 
+  mix-blend-mode: plus-lighter; 
   
-  /* 【核心改动8】大幅降低径向渐变的中心亮度 (0.8 -> 0.4) 
-     并扩大晕染范围，让光不再是一个刺眼的点。
-  */
   background-image: radial-gradient(
     farthest-corner circle at var(--pointer-x) var(--pointer-y),
-    rgba(255, 255, 255, 0.5) 0%, /* 中心亮度降低 */
-    rgba(255, 255, 255, 0.1) 40%, /* 过渡更平缓 */
+    rgba(255, 255, 255, 0.2) 0%, 
+    rgba(255, 255, 255, 0.05) 30%, 
     transparent 80%
   );
-  /* 同样增加一点模糊 */
-  filter: blur(5px);
+  filter: blur(8px);
 }
