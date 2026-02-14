@@ -43,7 +43,7 @@ export default function Home() {
         <div className="flex flex-col md:flex-row gap-16 md:gap-12 items-center justify-center perspective-[2000px] w-full">
           <PokemonCard name="blog" img="/card-blog.jpg" href="https://blog.plankton2005.best" />
           <PokemonCard name="notebook" img="/card-wiki.jpg" href="https://wiki.plankton2005.best" />
-          <PokemonCard name="github" img="/card-github.jpg" href="https://github.com/Mr2025x/my-portal/tree/main" />
+          <PokemonCard name="github" img="/card-github.jpg" href="https://github.com/Mr2025x" />
           <PokemonCard name="friends" img="/card-friends.jpg" href="https://friends.plankton2005.best" />
         </div>
 
